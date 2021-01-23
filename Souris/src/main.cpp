@@ -1,6 +1,6 @@
-#include "core/launcher/launcher.hpp"
+#include "core/controller/controller.hpp"
 
 int main(int argc, char *argv[]) {
-    auto launcher = Core::Launcher::Create(argc, argv);
-    return launcher->exec();
+    auto controller = Core::Controller::Create(argc, argv);
+    return controller->exec();
 }
