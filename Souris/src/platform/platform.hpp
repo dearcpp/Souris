@@ -8,7 +8,7 @@
 # endif
 
 # if defined(SOURIS_PLATFORM_LINUX)
-#  include "platform/linux/launcher.hpp"
+#  include "platform/linux/controller.hpp"
 # else
 #  error This platform is not supported yet
 # endif
