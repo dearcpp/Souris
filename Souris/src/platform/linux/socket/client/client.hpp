@@ -1,11 +1,13 @@
 #ifndef SOURIS_PLATFORM_LINUX_SOCKET_CLIENT_CLIENT_HPP
 #define SOURIS_PLATFORM_LINUX_SOCKET_CLIENT_CLIENT_HPP
 
-# include "core/int_types.hpp"
-
 # include <functional>
 
-SOURIS_CORE_BEGIN_NAMESPACE
+# include "core/defines.hpp"
+
+SOURIS_PLATFORM_BEGIN_NAMESPACE
+
+extern bool is_ip_address(const char *str);
 
 class SocketClient
 {
@@ -21,11 +23,11 @@ public:
     void connect(const char *address, int port);
     void close();
 
-    void send(const char *message, u32 length);
+    void send(const char *message, u32 length) const;
 
     void set_recv_callback(const RecvCallback &callback);
 
-    int listen();
+    int listen() const;
 
 protected:
 
@@ -34,6 +36,6 @@ protected:
 
 };
 
-SOURIS_CORE_END_NAMESPACE
+SOURIS_PLATFORM_END_NAMESPACE
 
 #endif

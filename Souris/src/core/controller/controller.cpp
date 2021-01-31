@@ -1,21 +1,27 @@
 #include "controller.hpp"
 
-#include "platform/platform.hpp"
+#include <stdexcept>
+#include <cstring>
 
-#include <cstdio>
+#include "platform/platform.hpp"
+#include "core/utilities.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
-Controller::Controller(int argc, char *argv[]) : _client("127.0.0.1", 8888) {
-    printf("num: %i, first: %s\n", argc, argv[0]);
+Controller::Controller(int, char *argv[]) : _client(argv[1], std::atoi(argv[2])) {
+    if (!Platform::is_ip_address(argv[1]))
+        throw std::runtime_error("invalid ip address passed");
+
+    if (!is_number(argv[2]) || std::strlen(argv[2]) > 5)
+        throw std::runtime_error("invalid port passed");
 }
 
 std::shared_ptr<Controller> Controller::Create(int argc, char *argv[]) {
-    return std::make_shared<Platform::Controller>(argc, argv);
+    return std::make_shared<SOURIS_CORE_NAMESPACE::Controller>(argc, argv);
 }
 
-int Controller::exec() {
-    return _client.exec();
+int Controller::exec() const {
+    return _client.listen();
 }
 
 SOURIS_CORE_END_NAMESPACE

@@ -1,6 +1,6 @@
-#include "core/controller/controller.hpp"
+#include "platform/platform.hpp"
 
 int main(int argc, char *argv[]) {
-    auto controller = Core::Controller::Create(argc, argv);
+    auto controller = Platform::Controller::Create(argc, argv);
     return controller->exec();
 }

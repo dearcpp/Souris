@@ -1,13 +1,18 @@
 #include "client.hpp"
 
-#include <stdexcept>
 #include <cstring>
+#include <stdexcept>
 
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 
-SOURIS_CORE_BEGIN_NAMESPACE
+SOURIS_PLATFORM_BEGIN_NAMESPACE
+
+bool is_ip_address(const char *str) {
+    struct sockaddr_in sai;
+    return inet_pton(AF_INET, str, &sai.sin_addr) != 0;
+}
 
 SocketClient::SocketClient() {
     create();
@@ -45,7 +50,7 @@ void SocketClient::close() {
         throw std::runtime_error("failed to close socket");
 }
 
-void SocketClient::send(const char *message, u32 length) {
+void SocketClient::send(const char *message, u32 length) const {
     if (_socket == -1)
         throw std::runtime_error("unable to send message with broken socket");
 
@@ -57,10 +62,10 @@ void SocketClient::set_recv_callback(const RecvCallback &callback) {
     _recv_callback = callback;
 }
 
-int SocketClient::listen() {
+int SocketClient::listen() const {
     while (1) {
         ssize_t reply_size = 32, old_reply_size = 0;
-        char *reply = new char[reply_size];
+        char *reply = new char[reply_size]();
         while (1) {
             ssize_t result = ::recv(_socket, reply + old_reply_size, 32, 0);
             if (result <= 0)
@@ -68,7 +73,7 @@ int SocketClient::listen() {
 
             if (result == 32) {
                 old_reply_size = reply_size, reply_size += 32;
-                char *new_reply = new char[reply_size];
+                char *new_reply = new char[reply_size]();
                 memcpy(new_reply, reply, old_reply_size);
                 delete[] reply;
                 reply = new_reply;
@@ -78,4 +83,4 @@ int SocketClient::listen() {
     }
 }
 
-SOURIS_CORE_END_NAMESPACE
+SOURIS_PLATFORM_END_NAMESPACE
