@@ -1,22 +1,30 @@
 #include "client.hpp"
 
-#include "platform/linux/socket/client/client.hpp"
-
 #include <cstdio>
+
+#include "platform/platform.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
 struct Client::SocketClientWrapper
 {
-    SocketClient handle;
+    Platform::SocketClient handle;
 };
 
-Client::Client(const char *address, int port) : _server_port(port), _server_address(address), _socket_client(new SocketClientWrapper) {
+Client::Client() : _socket_client(new SocketClientWrapper) {
     _socket_client->handle.set_recv_callback(std::bind(&Client::message_handler, this, std::placeholders::_1, std::placeholders::_2));
 }
 
-int Client::exec() {
-    _socket_client->handle.connect(_server_address, _server_port);
+Client::Client(const char *address, int port) : _socket_client(new SocketClientWrapper) {
+    _socket_client->handle.set_recv_callback(std::bind(&Client::message_handler, this, std::placeholders::_1, std::placeholders::_2));
+    connect(address, port);
+}
+
+void Client::connect(const char *address, int port) {
+    _socket_client->handle.connect(address, port);
+}
+
+int Client::listen() const {
     return _socket_client->handle.listen();
 }
 

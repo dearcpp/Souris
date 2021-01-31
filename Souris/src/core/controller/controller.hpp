@@ -1,9 +1,9 @@
 #ifndef SOURIS_CORE_CONTROLLER_CONTROLLER_HPP
 #define SOURIS_CORE_CONTROLLER_CONTROLLER_HPP
 
-# include "core/client/client.hpp"
-
 # include <memory>
+
+#include "core/client/client.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
@@ -11,11 +11,11 @@ class Controller
 {
 public:
 
-    Controller(int argc, char *argv[]);
+    explicit Controller(int argc, char *argv[]);
 
     static std::shared_ptr<Controller> Create(int argc, char *argv[]);
 
-    int exec();
+    int exec() const;
 
 protected:
 
