@@ -24,6 +24,10 @@ void Client::connect(const char *address, int port) {
     _socket_client->handle.connect(address, port);
 }
 
+void Client::send(const char *message, u32 length) const {
+    _socket_client->handle.send(message, length);
+}
+
 int Client::listen() const {
     return _socket_client->handle.listen();
 }
