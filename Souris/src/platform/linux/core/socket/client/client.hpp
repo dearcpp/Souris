@@ -1,13 +1,11 @@
-#ifndef SOURIS_PLATFORM_LINUX_SOCKET_CLIENT_CLIENT_HPP
-#define SOURIS_PLATFORM_LINUX_SOCKET_CLIENT_CLIENT_HPP
+#ifndef SOURIS_PLATFORM_LINUX_CORE_SOCKET_CLIENT_CLIENT_HPP
+#define SOURIS_PLATFORM_LINUX_CORE_SOCKET_CLIENT_CLIENT_HPP
 
 # include <functional>
 
 # include "core/defines.hpp"
 
 SOURIS_PLATFORM_BEGIN_NAMESPACE
-
-extern bool is_ip_address(const char *str);
 
 class SocketClient
 {

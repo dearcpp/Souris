@@ -18,6 +18,8 @@ public:
 
     void connect(const char *address, int port);
 
+    void send(const char *message, u32 length) const;
+
     int listen() const;
 
 protected:

@@ -1,7 +1,8 @@
 #ifndef SOURIS_PLATFORM_LINUX_LINUX_HPP
 #define SOURIS_PLATFORM_LINUX_LINUX_HPP
 
-# include "controller/controller.hpp"
-# include "socket/client/client.hpp"
+# include "core/controller/controller.hpp"
+# include "core/socket/client/client.hpp"
+# include "core/utilities.hpp"
 
 #endif

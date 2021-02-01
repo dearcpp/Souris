@@ -9,11 +9,6 @@
 
 SOURIS_PLATFORM_BEGIN_NAMESPACE
 
-bool is_ip_address(const char *str) {
-    struct sockaddr_in sai;
-    return inet_pton(AF_INET, str, &sai.sin_addr) != 0;
-}
-
 SocketClient::SocketClient() {
     create();
 }
