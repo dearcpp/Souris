@@ -6,7 +6,6 @@
 #include <stdexcept>
 #include <cstring>
 
-#include "platform/platform.hpp"
 #include "core/utilities.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
