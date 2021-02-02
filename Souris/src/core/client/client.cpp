@@ -1,39 +1,37 @@
 #include "client.hpp"
 
-#include <cstdio>
+#include <iostream>
+#include <nlohmann/json.hpp>
 
-#include "platform/platform.hpp"
+#include "message/message.hpp"
+#include "message/types/print.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
-struct Client::SocketClientWrapper
-{
-    Platform::SocketClient handle;
-};
-
-Client::Client() : _socket_client(new SocketClientWrapper) {
-    _socket_client->handle.set_recv_callback(std::bind(&Client::message_handler, this, std::placeholders::_1, std::placeholders::_2));
-}
-
-Client::Client(const char *address, int port) : _socket_client(new SocketClientWrapper) {
-    _socket_client->handle.set_recv_callback(std::bind(&Client::message_handler, this, std::placeholders::_1, std::placeholders::_2));
-    connect(address, port);
+Client::Client() : _client() {
+    _client.set_recv_callback(std::bind(&Client::message_handler, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 void Client::connect(const char *address, int port) {
-    _socket_client->handle.connect(address, port);
+    _client.connect(address, port);
 }
 
 void Client::send(const char *message, u32 length) const {
-    _socket_client->handle.send(message, length);
+    _client.send(message, length);
 }
 
 int Client::listen() const {
-    return _socket_client->handle.listen();
+    return _client.listen();
 }
 
-void Client::message_handler(const char *message, u32 length) {
-    printf("message: \"%s\", size: %u\n", message, length);
+// @note: ok. next task: implement a normal message handling interface
+
+void Client::message_handler(const char *message, u32) {
+    try {
+        nlohmann::json json_message = nlohmann::json::parse(message);
+        if (json_message["type"] == "print")
+            std::cout << json_message["text"].get<nlohmann::json::string_t>().c_str() << std::endl;
+    } catch(nlohmann::detail::parse_error e) { std::cout << e.what() << std::endl; }
 }
 
 SOURIS_CORE_END_NAMESPACE

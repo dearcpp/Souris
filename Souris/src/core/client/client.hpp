@@ -1,20 +1,15 @@
 #ifndef SOURIS_CORE_CLIENT_CLIENT_HPP
 #define SOURIS_CORE_CLIENT_CLIENT_HPP
 
-# include "core/defines.hpp"
+# include "platform/tools/socket.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
 class Client
 {
-protected:
-
-    struct SocketClientWrapper;
-
 public:
 
     Client();
-    Client(const char *address, int port);
 
     void connect(const char *address, int port);
 
@@ -24,9 +19,9 @@ public:
 
 protected:
 
-    void message_handler(const char *message, u32 length);
+    Platform::SocketClient _client;
 
-    SocketClientWrapper *_socket_client;
+    void message_handler(const char *message, u32 length);
 
 };
 
