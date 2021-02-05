@@ -5,11 +5,13 @@
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
+class Controller;
+
 class Client
 {
 public:
 
-    Client();
+    Client(Controller *controller);
 
     void connect(const char *address, int port);
 
@@ -19,6 +21,7 @@ public:
 
 protected:
 
+    Controller *_controller;
     Platform::SocketClient _client;
 
     void message_handler(const char *message, u32 length);

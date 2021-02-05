@@ -3,12 +3,13 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-#include "message/message.hpp"
-#include "message/types/print.hpp"
+#include "delegator/types/message_box.hpp"
+
+using namespace nlohmann;
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
-Client::Client() : _client() {
+Client::Client(Controller *controller) : _controller(controller), _client() {
     _client.set_recv_callback(std::bind(&Client::message_handler, this, std::placeholders::_1, std::placeholders::_2));
 }
 
@@ -24,13 +25,15 @@ int Client::listen() const {
     return _client.listen();
 }
 
-// @note: ok. next task: implement a normal message handling interface
-
 void Client::message_handler(const char *message, u32) {
     try {
-        nlohmann::json json_message = nlohmann::json::parse(message);
-        if (json_message["type"] == "print")
-            std::cout << json_message["text"].get<nlohmann::json::string_t>().c_str() << std::endl;
+        json json_message = nlohmann::json::parse(message);
+        if (json_message["type"] == "message_box") {
+            Delegator::MessageBox::handler({
+                json_message["data"]["title"].get<json::string_t>().c_str(),
+                json_message["data"]["message"].get<json::string_t>().c_str()
+            });
+        }
     } catch(nlohmann::detail::parse_error e) { std::cout << e.what() << std::endl; }
 }
 
