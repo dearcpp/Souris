@@ -10,15 +10,21 @@
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
-Controller::Controller(int, char *argv[]) : _client() {
-    if (argv[1] == 0 || argv[2] == 0)
+Controller::Controller(int, char *argv[]) : _client(this) {
+    if (argv[1] == 0 || argv[2] == 0) {
         throw std::invalid_argument("not all arguments were passed");
+        std::exit(-1);
+    }
 
-    if (!Platform::is_ip_address(argv[1]))
+    if (!Platform::is_ip_address(argv[1])) {
         throw std::invalid_argument("invalid ip address passed");
+        std::exit(-1);
+    }
 
-    if (!is_number(argv[2]) || std::strlen(argv[2]) > 5)
+    if (!is_number(argv[2]) || std::strlen(argv[2]) > 5) {
         throw std::invalid_argument("invalid port passed");
+        std::exit(-1);
+    }
 
     _client.connect(argv[1], std::atoi(argv[2]));
 }
