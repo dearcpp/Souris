@@ -9,9 +9,8 @@ class MessageBase
 {
 public:
 
-    enum class Type
-    {
-        MessageBox
+    enum class Type {
+        ClientPath
     };
 
     virtual const char *get_name() const = 0;

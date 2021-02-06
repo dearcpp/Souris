@@ -33,7 +33,11 @@ std::shared_ptr<Controller> Controller::Create(int argc, char *argv[]) {
     return std::make_shared<SOURIS_CORE_NAMESPACE::Controller>(argc, argv);
 }
 
-int Controller::exec() const {
+const Client &Controller::get_client() const {
+    return _client;
+}
+
+int Controller::exec() {
     return _client.listen();
 }
 

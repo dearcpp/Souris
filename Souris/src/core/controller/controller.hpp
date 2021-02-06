@@ -15,7 +15,9 @@ public:
 
     static std::shared_ptr<Controller> Create(int argc, char *argv[]);
 
-    int exec() const;
+    const Client &get_client() const;
+
+    int exec();
 
 protected:
 

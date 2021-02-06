@@ -18,7 +18,7 @@ public:
     SocketClient(const char *address, int port);
 
     void create();
-    void connect(const char *address, int port);
+    int connect(const char *address, int port);
     void close();
 
     void send(const char *message, u32 length) const;
