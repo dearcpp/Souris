@@ -18,29 +18,26 @@ SocketClient::SocketClient(const char *address, int port) {
 }
 
 void SocketClient::create() {
-    _socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (_socket == -1)
+    if ((_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
         throw std::runtime_error("unable to create socket");
 }
 
-void SocketClient::connect(const char *address, int port) {
-    if (_socket == -1)
-        throw std::runtime_error("unable to create connection with broken socket");
-
+int SocketClient::connect(const char *address, int port) {
     sockaddr_in socket_address = {
         .sin_family = AF_INET,
         .sin_port = htons(port),
         .sin_addr { .s_addr = inet_addr(address) }
     };
 
-    if (::connect(_socket, (sockaddr*)&socket_address, sizeof(socket_address)) < 0)
+    int result;
+
+    if ((result = ::connect(_socket, (sockaddr*)&socket_address, sizeof(socket_address))) < 0)
         throw std::runtime_error("unable to create socket connection");
+
+    return result;
 }
 
 void SocketClient::close() {
-    if (_socket == -1)
-        throw std::runtime_error("unable to close broken socket");
-
     if (::close(_socket) < 0)
         throw std::runtime_error("failed to close socket");
 }

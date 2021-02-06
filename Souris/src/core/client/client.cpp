@@ -3,9 +3,9 @@
 #include <iostream>
 #include <nlohmann/json.hpp>
 
-#include "delegator/types/message_box.hpp"
-
 using namespace nlohmann;
+
+#include "delegator/types/client_path/client_path.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
@@ -27,14 +27,16 @@ int Client::listen() const {
 
 void Client::message_handler(const char *message, u32) {
     try {
-        json json_message = nlohmann::json::parse(message);
-        if (json_message["type"] == "message_box") {
-            Delegator::MessageBox::handler({
-                json_message["data"]["title"].get<json::string_t>().c_str(),
-                json_message["data"]["message"].get<json::string_t>().c_str()
-            });
-        }
-    } catch(nlohmann::detail::parse_error e) { std::cout << e.what() << std::endl; }
+
+        nlohmann::json json_message = nlohmann::json::parse(message);
+        if (json_message["type"].get<nlohmann::json::string_t>() == "client_path")
+            Delegator::ClientPath::handler(_controller);
+
+    } catch(const nlohmann::detail::parse_error &error) {
+        std::cerr << error.what() << std::endl;
+    } catch(const std::runtime_error &error) {
+        std::cerr << error.what() << std::endl;
+    }
 }
 
 SOURIS_CORE_END_NAMESPACE

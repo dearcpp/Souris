@@ -2,14 +2,13 @@
 #define SOURIS_CORE_CLIENT_DELEGATOR_DELEGATOR_HPP
 
 # include "core/defines.hpp"
+# include "core/controller/controller.hpp"
 
-# define SOURIS_DECLARE_DELEGATOR(delegator_name, delegator_message) \
-    SOURIS_DELEGATOR_BEGIN_NAMESPACE \
+# define SOURIS_DECLARE_DELEGATOR(delegator_name, delegator_message, delegator_parameters) \
     class delegator_name \
     { \
     public: \
-        static void handler(const delegator_message &message); \
+        static void handler(delegator_parameters); \
     }; \
-    SOURIS_DELEGATOR_END_NAMESPACE \
 
 #endif
