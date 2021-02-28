@@ -10,7 +10,9 @@ class MessageBase
 public:
 
     enum class Type {
-        ClientPath
+        ClientPath,
+        ProcessStart,
+        Stop
     };
 
     virtual const char *get_name() const = 0;
