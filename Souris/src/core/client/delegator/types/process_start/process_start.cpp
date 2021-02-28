@@ -8,8 +8,8 @@ using namespace nlohmann;
 SOURIS_CORE_BEGIN_NAMESPACE
 SOURIS_DELEGATOR_BEGIN_NAMESPACE
 
-void ProcessStart::handler(const Controller *controller, const json &data) {
-    Platform::Process process(data["file"].get<json::string_t>().c_str());
+void ProcessStart::handler(const Controller *controller, const char *file) {
+    Platform::Process process(file);
     auto result = process.read_output();
     controller->get_client().send(result.c_str(), result.size());
 }

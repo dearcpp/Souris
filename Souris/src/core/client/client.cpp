@@ -31,16 +31,19 @@ void Client::message_handler(const char *message, u32) {
     try {
 
         json json_message = json::parse(message);
-        json::string_t json_type = json_message["type"].get<json::string_t>();
+        json::string_t message_type = json_message["type"].get<json::string_t>();
 
-        if (json_type == "client_path")
+        if (message_type == "client_path")
             Delegator::ClientPath::handler(_controller);
-        else if (json_type == "process_start")
-            Delegator::ProcessStart::handler(_controller, json_message["data"]);
-        else if (json_type == "stop")
+        else if (message_type == "process_start") {
+            auto file = json_message["data"]["file"].get<json::string_t>();
+            Delegator::ProcessStart::handler(_controller, file.c_str());
+        } else if (message_type == "stop")
             Delegator::Stop::handler();
 
     } catch(const nlohmann::detail::parse_error &error) {
+        std::cerr << error.what() << std::endl;
+    } catch(const nlohmann::detail::type_error &error) {
         std::cerr << error.what() << std::endl;
     } catch(const std::runtime_error &error) {
         std::cerr << error.what() << std::endl;
