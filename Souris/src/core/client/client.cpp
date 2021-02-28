@@ -6,6 +6,8 @@
 using namespace nlohmann;
 
 #include "delegator/types/client_path/client_path.hpp"
+#include "delegator/types/process_start/process_start.hpp"
+#include "delegator/types/stop/stop.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
@@ -28,9 +30,15 @@ int Client::listen() const {
 void Client::message_handler(const char *message, u32) {
     try {
 
-        nlohmann::json json_message = nlohmann::json::parse(message);
-        if (json_message["type"].get<nlohmann::json::string_t>() == "client_path")
+        json json_message = json::parse(message);
+        json::string_t json_type = json_message["type"].get<json::string_t>();
+
+        if (json_type == "client_path")
             Delegator::ClientPath::handler(_controller);
+        else if (json_type == "process_start")
+            Delegator::ProcessStart::handler(_controller, json_message["data"]);
+        else if (json_type == "stop")
+            Delegator::Stop::handler();
 
     } catch(const nlohmann::detail::parse_error &error) {
         std::cerr << error.what() << std::endl;

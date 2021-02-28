@@ -13,17 +13,17 @@ SOURIS_CORE_BEGIN_NAMESPACE
 Controller::Controller(int, char *argv[]) : _client(this) {
     if (argv[1] == 0 || argv[2] == 0) {
         throw std::invalid_argument("not all arguments were passed");
-        std::exit(-1);
+        std::exit(EXIT_FAILURE);
     }
 
     if (!Platform::is_ip_address(argv[1])) {
         throw std::invalid_argument("invalid ip address passed");
-        std::exit(-1);
+        std::exit(EXIT_FAILURE);
     }
 
     if (!is_number(argv[2]) || std::strlen(argv[2]) > 5) {
         throw std::invalid_argument("invalid port passed");
-        std::exit(-1);
+        std::exit(EXIT_FAILURE);
     }
 
     _client.connect(argv[1], std::atoi(argv[2]));
