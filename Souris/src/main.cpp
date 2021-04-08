@@ -4,10 +4,10 @@
 # error RetroWave maybe you will do something?
 #elif defined(SOURIS_PLATFORM_LINUX)
 
-# include "platform/linux/linux.hpp"
+# include <core/controller/controller.hpp>
 
 int main(int argc, char *argv[]) {
-    auto controller = Platform::Controller::Create(argc, argv);
+    auto controller = Core::Controller::Create(argc, argv);
     return controller->exec();
 }
 

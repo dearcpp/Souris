@@ -1,6 +1,0 @@
-#ifndef SOURIS_PLATFORM_LINUX_CORE_SOCKET_SOCKET_HPP
-#define SOURIS_PLATFORM_LINUX_CORE_SOCKET_SOCKET_HPP
-
-# include "client/client.hpp"
-
-#endif
