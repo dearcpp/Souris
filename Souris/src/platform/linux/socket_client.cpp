@@ -1,11 +1,15 @@
-#include "client.hpp"
+#include <platform/platform.hpp>
 
-#include <cstring>
-#include <stdexcept>
+#if defined(SOURIS_PLATFORM_LINUX)
 
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
+# include <platform/tools/socket_client.hpp>
+
+# include <cstring>
+# include <stdexcept>
+
+# include <sys/socket.h>
+# include <arpa/inet.h>
+# include <unistd.h>
 
 SOURIS_PLATFORM_BEGIN_NAMESPACE
 
@@ -76,3 +80,5 @@ int SocketClient::listen() const {
 }
 
 SOURIS_PLATFORM_END_NAMESPACE
+
+#endif

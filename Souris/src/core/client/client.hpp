@@ -1,7 +1,7 @@
 #ifndef SOURIS_CORE_CLIENT_CLIENT_HPP
 #define SOURIS_CORE_CLIENT_CLIENT_HPP
 
-# include "platform/tools/socket.hpp"
+# include "platform/tools/socket_client.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 

@@ -1,9 +1,8 @@
 #ifndef SOURIS_CORE_CONTROLLER_CONTROLLER_HPP
 #define SOURIS_CORE_CONTROLLER_CONTROLLER_HPP
 
+# include <core/client/client.hpp>
 # include <memory>
-
-# include "core/client/client.hpp"
 
 SOURIS_CORE_BEGIN_NAMESPACE
 
