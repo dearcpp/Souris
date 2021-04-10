@@ -1,7 +1,11 @@
-#include "process.hpp"
+#include <platform/platform.hpp>
 
-#include <cstdio>
-#include <cstdlib>
+#if defined(SOURIS_PLATFORM_LINUX)
+
+# include <platform/tools/process.hpp>
+
+# include <cstdio>
+# include <cstdlib>
 
 SOURIS_PLATFORM_BEGIN_NAMESPACE
 
@@ -35,3 +39,5 @@ Process::~Process() {
 }
 
 SOURIS_PLATFORM_END_NAMESPACE
+
+#endif
